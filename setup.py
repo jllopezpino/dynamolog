@@ -17,6 +17,7 @@ setup(
     maintainer='Jose Luis Lopez Pino',
     maintainer_email="jllopezpino@gmail.com",
     url='https://github.com/jllopezpino/dynamolog',
+    download_url = 'https://github.com/jllopezpino/dynamolog/tarball/0.1.1',
     packages=['dynamolog'],
     keywords=["dynamolog", "logging", "dynamo", "dynamodb"],
     install_requires=['boto'],
