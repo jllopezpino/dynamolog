@@ -50,7 +50,23 @@ class DynamoHandler(logging.Handler):
         conn = boto.dynamodb.connect_to_region(aws_region,
                                                aws_access_key_id=aws_access_key_id,
                                                aws_secret_access_key=aws_secret_access_key)
-        self.table = conn.get_table(table_name)
+
+        try:
+            self.table = conn.get_table(table_name)
+        except DynamoDBResponseError as e:
+            table_schema = conn.create_schema(
+                hash_key_name='logger_name',
+                hash_key_proto_value=str,
+                range_key_name='timestamp',
+                range_key_proto_value=float
+            )
+
+            table = conn.create_table(
+                name=table_name,
+                schema=table_schema,
+                read_units=10,
+                write_units=10
+            )
 
         self.formatter = DynamoFormatter()
 
